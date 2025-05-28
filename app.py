@@ -66,10 +66,16 @@ def get_mariners_data():
         "probableAwayPitcher": probable_away_pitcher
     }
 
+
 @app.route('/')
 def mariners_data():
     data = get_mariners_data()
-    return jsonify(data)
+    if "error" in data:
+        return data["error"]
+
+    response_string = f"{data['lastGameStatus']} | {data['lastScore']} vs {data['lastOpponent']} | Next: {data['nextGameDate']} vs {data['nextOpponent']} | Pitchers: {data['probableHomePitcher']} vs {data['probableAwayPitcher']}"
+    return response_string
+
 
 
 import os
